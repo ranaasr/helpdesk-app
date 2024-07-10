@@ -161,6 +161,7 @@ const IssuesSection = ({ searchTerm }) => {
 
       setFacts(factsData);
       setFilteredFacts(factsData);
+      console.log(factsData)
     };
     fetchFacts();
   }, []);
@@ -186,9 +187,12 @@ const IssuesSection = ({ searchTerm }) => {
     handleCheckboxChange(id);
   };
 
+  // Fungsi Sistem Pakar
   const handleFindSolution = async () => {
     setIsLoading(true);
+    // Buat Array tampung data dari tabel rules
     const rulesData = [];
+    // Ambil data dari tabel rules dan masukkan ke rulesData
     await new Promise((resolve) => {
       ambilSemuaRules((rules) => {
         rules.forEach((doc) => {
@@ -197,16 +201,21 @@ const IssuesSection = ({ searchTerm }) => {
         resolve();
       });
     });
+    console.log(rulesData)
 
+    // buat array untuk tampung solusi
     const solutionsFound = [];
     const matchedFactIds = new Set();
 
+    // looping semua rulesData
     for (let rule of rulesData) {
       const { id_fakta, id_kesimpulan, id_solusi } = rule;
 
+      // cek apakah semua id fakta pada sebuah rule termasuk dalam fakta yang dipilih
       if (id_fakta.every((fact) => selectedFacts.includes(fact))) {
         const daftarFakta = [];
 
+        // masukkan seluruh fakta pada array matchedFactIds dan nama fakta pada array daftarFakta
         await ambilSemuaFaktaPermasalahan((faktaData) => {
           id_fakta.forEach((fakta) => {
             faktaData.forEach((doc) => {
@@ -218,6 +227,7 @@ const IssuesSection = ({ searchTerm }) => {
           });
         });
 
+        // ambil nama kesimpulan dan simpan pada variabel conclusionText
         let conclusionText = "";
         await ambilSemuaKesimpulan((kesimpulanData) => {
           console.log(kesimpulanData);
@@ -228,6 +238,7 @@ const IssuesSection = ({ searchTerm }) => {
           });
         });
 
+        // ambil nama solusi dan simpan pada variabel solutionText
         let solutionText = "";
         await new Promise((resolve) => {
           ambilSemuaSolusi((solusiData) => {
@@ -240,6 +251,7 @@ const IssuesSection = ({ searchTerm }) => {
           });
         });
 
+        // tambahkan fakta, kesimpulan, dan solusi pada array solutionsFound
         solutionsFound.push({
           facts: daftarFakta,
           conclusion: conclusionText,
@@ -248,23 +260,30 @@ const IssuesSection = ({ searchTerm }) => {
       }
     }
 
-    // Identify unmatched facts
+    // cari fakta yang belum menemukan fix kesimpulan dan solusi, disimpan pada array unmatchedFactsList
     const unmatchedFactsList = selectedFacts.filter(
       (factId) => !matchedFactIds.has(factId)
     );
 
-    // Finding partial solutions for unmatched facts
+    // buat array partialSolutionsFound untuk simpan kemungkinan solusi
     const partialSolutionsFound = [];
+
+    // looping semua rulesData
     for (let rule of rulesData) {
       const { id_fakta, id_kesimpulan, id_solusi } = rule;
+
+      // cek apakah id_faktanya terdapat pada unmatchedFactsList
       const intersectingFacts = id_fakta.filter((fact) =>
         unmatchedFactsList.includes(fact)
       );
+      console.log(intersectingFacts)
 
+      // jika id_faktanya terdapat pada unmatchedFactsList
       if (intersectingFacts.length > 0) {
         const daftarFaktaUnmatched = [];
         const daftarFaktaMatched = [];
 
+        // ambil fakta lainnya yang berada dalam rule yang sama
         ambilSemuaFaktaPermasalahan((rules) => {
           id_fakta.forEach((fakta) => {
             rules.forEach((doc) => {
@@ -282,6 +301,7 @@ const IssuesSection = ({ searchTerm }) => {
           });
         });
 
+        // ambil kemungkinan kesimpulannya dan simpan pada conclusionText
         let conclusionText = "";
         await ambilSemuaKesimpulan((kesimpulanData) => {
           kesimpulanData.forEach((satuKesimpulan) => {
@@ -291,6 +311,7 @@ const IssuesSection = ({ searchTerm }) => {
           });
         });
 
+        // ambil kemungkinan solusinya dan simpan pada solutionText
         let solutionText = "";
         await new Promise((resolve) => {
           ambilSemuaSolusi((solusiData) => {
@@ -303,6 +324,7 @@ const IssuesSection = ({ searchTerm }) => {
           });
         });
 
+        // tambahkan fakta, kemungkinan kesimpulan, dan kemungkinan solusi pada array partialSolutionsFound
         partialSolutionsFound.push({
           factsMatched: daftarFaktaMatched,
           factsUnmatched: daftarFaktaUnmatched,
@@ -358,13 +380,14 @@ const IssuesSection = ({ searchTerm }) => {
           {isLoading ? (
             <Spinner animation="border" size="sm" />
           ) : selectedFacts < 1 ? (
-            <>
+            <div>
               <FontAwesomeIcon icon={faLock} /> Find the Solution
-            </>
+            </div>
           ) : (
             "Find the Solution"
           )}
         </Button>
+        {/* kode untuk menampilkan hasil/completion */}
         {(solutionData.length > 0 || partialSolutions.length > 0) && (
           <div className="solution-section mt-5">
             {solutionData.map((solution, index) => (
