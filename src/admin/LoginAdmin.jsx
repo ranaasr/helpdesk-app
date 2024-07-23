@@ -55,18 +55,11 @@ const LoginAdmin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <p>
-                <a href="#">Forgot password?</a>
-              </p>
             </div>
             <button type="submit" className="btn btn-primary btn-block mt-3">
               Login
             </button>
           </form>
-          <p className="mt-3 text-center">
-            Don't have an account yet?{" "}
-            <Link to="/admin/register">Register</Link>
-          </p>
         </div>
       </div>
     </div>
