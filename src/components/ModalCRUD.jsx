@@ -23,7 +23,7 @@ const ModalCRUD = ({
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {type !== "delete" ? (
+        {type !== "delete" && type !== "activate" ? (
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNamaFakta">
               <Form.Label>{`Name of ${item}`}</Form.Label>
@@ -43,16 +43,19 @@ const ModalCRUD = ({
             </Button>
           </Form>
         ) : (
-          <p>{`Are you sure you want to delete this ${item}?`}</p>
+          <p>{`Are you sure you want to ${type} this ${item}?`}</p>
         )}
       </Modal.Body>
-      {type === "delete" && (
+      {(type === "delete" || type === "activate") && (
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleSubmit}>
-            Delete
+          <Button
+            variant={type === "delete" ? "danger" : "success"}
+            onClick={handleSubmit}
+          >
+            {type === "delete" ? "Delete" : "Activate"}
           </Button>
         </Modal.Footer>
       )}

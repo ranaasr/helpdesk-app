@@ -12,6 +12,7 @@ import Layout from "./components/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import StudentDashboard from "./students/StudentDashboard";
 import NotifikasiAdmin from "./admin/NotifikasiAdmin";
+import AdminManagement from "./admin/AdminManagement";
 import LoginAdmin from "./admin/LoginAdmin";
 import RegisterAdmin from "./admin/RegisterAdmin";
 
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="kesimpulan" element={<Kesimpulan />} />
           <Route path="solusi" element={<Solusi />} />
           <Route path="notifikasi" element={<NotifikasiAdmin />} />
+          <Route path="manajemen-user" element={<AdminManagement />} />
         </Route>
         {/* Catch-all route to redirect to /dashboard */}
         <Route path="/admin/*" element={<Navigate to="/admin/dashboard" />} />

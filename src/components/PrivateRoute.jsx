@@ -4,9 +4,13 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ component: Component, navigateTo: NavigateTo, requiredRole }) => {
+const PrivateRoute = ({
+  component: Component,
+  navigateTo: NavigateTo,
+  requiredRole,
+}) => {
   const [cookies] = useCookies(["user"]);
-  console.log(cookies);
+  console.log(cookies.user);
 
   if (!cookies.user) {
     return <Navigate to={NavigateTo} />;

@@ -113,6 +113,10 @@ body {
   width: 80%;
 }
 
+.table .admin-name {
+  width: 20%;
+}
+
 .table .aksi {
   text-align: center;
   width: 15%;
