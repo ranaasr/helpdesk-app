@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Button, Tooltip, OverlayTrigger, Table } from "react-bootstrap";
+import "./styles/TabelAdminHelpdesk.css"; // Tambahkan custom styles di sini
 
 const TabelContentHelpdesk = ({
   item,
@@ -10,7 +11,7 @@ const TabelContentHelpdesk = ({
   handleDeleteShow,
 }) => {
   return (
-    <table className="table">
+    <Table responsive className="table-modern">
       <thead>
         <tr>
           <th className="no">No</th>
@@ -68,7 +69,7 @@ const TabelContentHelpdesk = ({
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  editStatusAdmin,
-  ambilSemuaAdmin,
-} from "../database/adminManagementService";
+import { ambilSemuaStudent } from "../database/studentManagementService";
 import ToastHelpdesk from "../components/ToastHelpdesk";
-import TabelAdminHelpdesk from "../components/TabelAdminHelpdesk";
+import TabelStudentHelpdesk from "../components/TabelStudentHelpdesk";
 import "./styles/Content.css";
 import ModalCRUD from "../components/ModalCRUD";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useCookies } from "react-cookie";
 
-const AdminManagement = () => {
+const StudentManagement = () => {
   const [show, setShow] = useState(false);
   const [activateShow, setActivateShow] = useState(false);
   const [faktaPermasalahan, setFaktaPermasalahan] = useState([]);
@@ -43,23 +40,23 @@ const AdminManagement = () => {
     setActivateShow(true);
   };
 
-  const confirmActivate = async () => {
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        `${activateNidn}@admin.com`,
-        activatePassword
-      );
-      await editStatusAdmin(activateId);
-      handleClose();
-      showToast(`Fact successfully deleted!`);
-    } catch (e) {
-      console.error("Error deleting document: ", e);
-    }
-  };
+  // const confirmActivate = async () => {
+  //   try {
+  //     await createUserWithEmailAndPassword(
+  //       auth,
+  //       `${activateNidn}@admin.com`,
+  //       activatePassword
+  //     );
+  //     await editStatusAdmin(activateId);
+  //     handleClose();
+  //     showToast(`Fact successfully deleted!`);
+  //   } catch (e) {
+  //     console.error("Error deleting document: ", e);
+  //   }
+  // };
 
   useEffect(() => {
-    const unsubscribe = ambilSemuaAdmin((data) => {
+    const unsubscribe = ambilSemuaStudent((data) => {
       setFaktaPermasalahan(data);
       setLoading(false);
     });
@@ -84,8 +81,8 @@ const AdminManagement = () => {
         ) : faktaPermasalahan.length === 0 ? (
           <p>No Facts of the Problem</p>
         ) : (
-          <TabelAdminHelpdesk
-            item="Admin"
+          <TabelStudentHelpdesk
+            item="Student"
             daftarData={faktaPermasalahan}
             handleActivateShow={handleActivateShow}
             nidnAkun={nidnAkun}
@@ -93,7 +90,7 @@ const AdminManagement = () => {
         )}
       </div>
 
-      <ModalCRUD
+      {/* <ModalCRUD
         item="Admin"
         show={activateShow}
         handleClose={handleClose}
@@ -101,7 +98,7 @@ const AdminManagement = () => {
         title="Activate Confirmation"
         buttonLabel="Activate"
         type="activate"
-      />
+      /> */}
 
       <ToastHelpdesk
         show={toastShow}
@@ -113,4 +110,4 @@ const AdminManagement = () => {
   );
 };
 
-export default AdminManagement;
+export default StudentManagement;

@@ -3,11 +3,11 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import LogoHeader from "../components/LogoHeader";
 import PasswordField from "../components/PasswordField";
-import logo from "../assets/logo-uinar.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../admin/styles/Login.css";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
+import { Form } from "react-bootstrap";
 
 const RegisterMahasiswa = () => {
   const [nama, setNama] = useState("");
@@ -15,10 +15,10 @@ const RegisterMahasiswa = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State untuk melacak apakah password ditampilkan atau tidak
 
   const handleRegister = (e) => {
     e.preventDefault();
+    const timestamp = new Date();
     createUserWithEmailAndPassword(auth, `${npm}@mhs.com`, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -27,6 +27,9 @@ const RegisterMahasiswa = () => {
           uid: user.uid,
           nama: nama,
           npm: npm,
+          password: password,
+          createdAt: timestamp,
+          updatedAt: timestamp,
         })
           .then(() => {
             console.log("User registered:", user);
@@ -60,28 +63,36 @@ const RegisterMahasiswa = () => {
           {error && <p className="text-danger">{error}</p>}
           <form onSubmit={handleRegister}>
             <div className="form-group">
-              <input
+              <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
                 placeholder="Full Name"
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
+                required
               />
+              <div className="invalid-feedback">Full Name is required.</div>
             </div>
             <div className="form-group">
-              <input
+              <Form.Control
                 type="text"
                 className="form-control bg-transparent"
                 placeholder="ID Student or NPM"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
+                required
               />
+              <div className="invalid-feedback">
+                ID Student or NPM is required.
+              </div>
             </div>
             <div className="form-group">
               <PasswordField
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
+              <div className="invalid-feedback">Password is required.</div>
             </div>
             <button type="submit" className="btn btn-primary btn-block mt-3">
               Register

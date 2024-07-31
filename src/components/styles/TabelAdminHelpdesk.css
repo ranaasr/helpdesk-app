@@ -1,0 +1,42 @@
+/* styles/TabelAdminHelpdesk.css */
+
+.table-modern {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.thead-modern {
+  background: linear-gradient(90deg, #4b6cb7, #182848);
+  color: #fff;
+}
+
+.table-modern tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table-modern tbody tr:hover {
+  background: #f1f1f1;
+}
+
+.badge-modern {
+  font-size: 0.8em;
+  padding: 0.5em 1em;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-modern {
+  transition: all 0.3s ease;
+}
+
+.btn-modern:hover,
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}

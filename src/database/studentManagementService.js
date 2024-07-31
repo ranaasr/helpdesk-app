@@ -11,11 +11,11 @@ import {
   getDoc
 } from "firebase/firestore";
 
-const adminManagementCollection = collection(db, "admin");
+const studentManagementCollection = collection(db, "users");
 
-export const tambahAdmin = async (nama) => {
+export const tambahStudent = async (nama) => {
   const timestamp = new Date();
-  const docRef = await addDoc(adminManagementCollection, {
+  const docRef = await addDoc(studentManagementCollection, {
     nama: nama.trim(),
     createdAt: timestamp,
     updatedAt: timestamp,
@@ -23,31 +23,22 @@ export const tambahAdmin = async (nama) => {
   return docRef.id;
 };
 
-export const editAdmin = async (id, nama) => {
+export const editStudent = async (id, nama) => {
   const timestamp = new Date();
-  const docRef = doc(db, "admin", id);
+  const docRef = doc(db, "users", id);
   await updateDoc(docRef, {
     nama: nama.trim(),
     updatedAt: timestamp,
   });
 };
 
-export const editStatusAdmin = async (id) => {
-  const timestamp = new Date();
-  const docRef = doc(db, "admin", id);
-  await updateDoc(docRef, {
-    status: "aktif",
-    updatedAt: timestamp,
-  });
-};
-
-export const hapusAdmin = async (id) => {
+export const hapusStudent = async (id) => {
   // Delete the fact document
-  await deleteDoc(doc(db, "admin", id));
+  await deleteDoc(doc(db, "users", id));
 };
 
-export const ambilSemuaAdmin = (callback) => {
-  const q = query(adminManagementCollection, orderBy("createdAt", "desc"));
+export const ambilSemuaStudent = (callback) => {
+  const q = query(studentManagementCollection, orderBy("createdAt", "desc"));
   return onSnapshot(q, (querySnapshot) => {
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -57,9 +48,9 @@ export const ambilSemuaAdmin = (callback) => {
   });
 };
 
-// Fungsi untuk mengambil data dari satu dokumen admin berdasarkan ID
-export const ambilSatuAdmin = async (id) => {
-  const docRef = doc(db, "admin", id);
+// Fungsi untuk mengambil data dari satu dokumen users berdasarkan ID
+export const ambilSatuStudent = async (id) => {
+  const docRef = doc(db, "users", id);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {

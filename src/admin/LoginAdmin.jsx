@@ -7,6 +7,7 @@ import LogoHeader from "../components/LogoHeader";
 import PasswordField from "../components/PasswordField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/Login.css";
+import { Form } from "react-bootstrap";
 
 const LoginAdmin = () => {
   const [npm, setNpm] = useState("");
@@ -42,18 +43,20 @@ const LoginAdmin = () => {
           {error && <p className="text-danger">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="form-group">
-              <input
+              <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
                 placeholder="ID Admin or NIDN"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
+                required
               />
             </div>
             <div className="form-group">
               <PasswordField
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <button type="submit" className="btn btn-primary btn-block mt-3">

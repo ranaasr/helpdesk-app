@@ -8,6 +8,7 @@ import PasswordField from "../components/PasswordField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../admin/styles/Login.css";
 import ModalWarning from "../components/ModalWarning";
+import { Form } from "react-bootstrap";
 
 const LoginMahasiswa = () => {
   const [npm, setNpm] = useState("");
@@ -47,12 +48,13 @@ const LoginMahasiswa = () => {
           {error && <p className="text-danger">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="form-group">
-              <input
+              <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
                 placeholder="ID Student or NPM"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
+                required
               />
             </div>
             <div className="form-group">

@@ -188,8 +188,8 @@ const Sidebar = ({ onLogout, unreadCount }) => {
             overlay={<Tooltip>Manajemen Admin</Tooltip>}
           >
             <Link
-              to="/admin/manajemen-user"
-              className={getMenuItemClass("/admin/manajemen-user")}
+              to="/admin/manajemen-admin"
+              className={getMenuItemClass("/admin/manajemen-admin")}
             >
               <span className="material-symbols-outlined">
                 supervisor_account
@@ -205,8 +205,8 @@ const Sidebar = ({ onLogout, unreadCount }) => {
           </OverlayTrigger>
         ) : (
           <Link
-            to="/admin/manajemen-user"
-            className={getMenuItemClass("/admin/manajemen-user")}
+            to="/admin/manajemen-admin"
+            className={getMenuItemClass("/admin/manajemen-admin")}
           >
             <span className="material-symbols-outlined">
               supervisor_account

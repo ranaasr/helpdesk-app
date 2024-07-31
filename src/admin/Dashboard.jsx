@@ -7,6 +7,7 @@ import {
   Collapse,
   Tooltip,
   OverlayTrigger,
+  Table,
 } from "react-bootstrap";
 import { ambilSemuaFaktaPermasalahan } from "../database/faktaPermasalahanService";
 import { ambilSemuaSolusi } from "../database/solusiService";
@@ -18,6 +19,7 @@ import {
   ambilSemuaRules,
 } from "../database/rulesService";
 import ToastHelpdesk from "../components/ToastHelpdesk";
+import "../components/styles/TabelAdminHelpdesk.css";
 import "./styles/Content.css"; // Add any additional styles you need for the dashboard
 
 const Dashboard = () => {
@@ -195,7 +197,7 @@ const Dashboard = () => {
       ) : rules.length === 0 ? (
         <p>No Rule</p>
       ) : (
-        <table className="table">
+        <Table responsive className="table-modern">
           <thead>
             <tr>
               <th className="col-rule">No Rule</th>
@@ -286,7 +288,7 @@ const Dashboard = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       )}
       <Button variant="primary" onClick={handleShow} className="add-button">
         Add Rule

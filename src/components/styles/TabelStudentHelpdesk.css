@@ -1,0 +1,43 @@
+.table-modern {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+}
+
+/* .table-modern th,
+.table-modern td {
+  vertical-align: middle;
+  text-align: center;
+} */
+
+.table-modern thead {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.no,
+.admin-name,
+.ID,
+.waktu,
+.password {
+  padding: 15px;
+}
+
+/* .password-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.password-text {
+  margin-right: 5px; /* Reduce or remove margin as needed */
+}
+
+.btn-show-password {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #007bff;
+  font-size: 1rem; /* Adjust the size of the icon */
+  padding: 0; /* Remove padding to make it as small as the icon */
+}
