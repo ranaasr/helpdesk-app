@@ -36,13 +36,13 @@ const NotifikasiAdmin = () => {
   const handleAddShow = (notif) => {
     setSelectedNotif(notif);
     setDescription(notif.description);
-    setModalType("add");
+    setModalType("tambah");
     setModalShow(true);
   };
 
   const handleDeleteShow = (notif) => {
     setSelectedNotif(notif);
-    setModalType("delete");
+    setModalType("hapus");
     setModalShow(true);
   };
 
@@ -51,7 +51,7 @@ const NotifikasiAdmin = () => {
       await hapusNotification(selectedNotif, setToastMessage, handleClose);
       setToastShow(true);
     } catch (e) {
-      setError("Error deleting notification.");
+      setError("Error dalam menghapus notifikasi.");
     }
   };
 
@@ -88,9 +88,9 @@ const NotifikasiAdmin = () => {
     const options = { hour: "2-digit", minute: "2-digit" };
 
     if (date.toDateString() === now.toDateString()) {
-      return `Today, ${date.toLocaleTimeString([], options)}`;
+      return `Hari ini, ${date.toLocaleTimeString([], options)}`;
     } else if (date.toDateString() === yesterday.toDateString()) {
-      return `Yesterday, ${date.toLocaleTimeString([], options)}`;
+      return `Kemarin, ${date.toLocaleTimeString([], options)}`;
     } else {
       return date.toLocaleDateString([], {
         day: "2-digit",
@@ -124,7 +124,7 @@ const NotifikasiAdmin = () => {
       <>
         {unreadNotifikasi.length > 0 && (
           <>
-            <h3>Unread Notifications</h3>
+            <h3>Notifikasi belum dibaca</h3>
             {unreadNotifikasi.map((notif) => (
               <div key={notif.id} className="notifikasi-card">
                 <div className="notifikasi-content">
@@ -134,13 +134,13 @@ const NotifikasiAdmin = () => {
                     </p>
                   </div>
                   <p className="notifikasi-meta">
-                    {formatDate(notif.createdAt)} by {notif.pengusulNama} -{" "}
+                    {formatDate(notif.createdAt)} oleh {notif.pengusulNama} -{" "}
                     {notif.pengusulNpm}
                   </p>
                   <div className="notifikasi-actions">
                     <OverlayTrigger
                       placement="top"
-                      overlay={<Tooltip id={`tooltip-top-add`}>Add</Tooltip>}
+                      overlay={<Tooltip id={`tooltip-top-add`}>Tambah</Tooltip>}
                     >
                       <Button
                         variant="primary"
@@ -153,7 +153,7 @@ const NotifikasiAdmin = () => {
                     <OverlayTrigger
                       placement="top"
                       overlay={
-                        <Tooltip id={`tooltip-top-delete`}>Delete</Tooltip>
+                        <Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>
                       }
                     >
                       <Button
@@ -175,7 +175,7 @@ const NotifikasiAdmin = () => {
                     variant="primary"
                     onClick={() => markAsRead(notif.id)}
                   >
-                    Mark as Read
+                    Tandai telah dibaca
                   </Button>
                   {notif.status && <p>Status: {notif.status}</p>}
                 </div>
@@ -187,7 +187,7 @@ const NotifikasiAdmin = () => {
 
         {readNotifikasi.length > 0 && (
           <>
-            <h3>Read Notifications</h3>
+            <h3>Notifikasi telah dibaca</h3>
             {readNotifikasi.map((notif) => (
               <div key={notif.id} className="notifikasi-card">
                 <div className="notifikasi-content">
@@ -197,13 +197,13 @@ const NotifikasiAdmin = () => {
                     </p>
                   </div>
                   <p className="notifikasi-meta">
-                    {formatDate(notif.createdAt)} by {notif.pengusulNama} -{" "}
+                    {formatDate(notif.createdAt)} oleh {notif.pengusulNama} -{" "}
                     {notif.pengusulNpm}
                   </p>
                   <div className="notifikasi-actions">
                     <OverlayTrigger
                       placement="top"
-                      overlay={<Tooltip id={`tooltip-top-add`}>Add</Tooltip>}
+                      overlay={<Tooltip id={`tooltip-top-add`}>Tambah</Tooltip>}
                     >
                       <Button
                         variant="primary"
@@ -216,7 +216,7 @@ const NotifikasiAdmin = () => {
                     <OverlayTrigger
                       placement="top"
                       overlay={
-                        <Tooltip id={`tooltip-top-delete`}>Delete</Tooltip>
+                        <Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>
                       }
                     >
                       <Button
@@ -246,26 +246,28 @@ const NotifikasiAdmin = () => {
       <div className="content">
         <div className="header">
           <span className="material-symbols-outlined">notifications</span>
-          <h1>Notifications</h1>
+          <h1>Notifikasi</h1>
         </div>
         {loading ? (
           <p>Loading...</p>
         ) : notifikasi.length === 0 ? (
-          <p>No Notifications</p>
+          <p>Tidak ada notifikasi</p>
         ) : (
           <div className="notifikasi-list">{renderNotifikasi()}</div>
         )}
       </div>
 
       <ModalCRUD
-        item="Fact"
+        item="Fakta"
         show={modalShow}
         handleClose={handleClose}
-        handleSubmit={modalType === "delete" ? handleDelete : handleAddSubmit}
+        handleSubmit={modalType === "hapus" ? handleDelete : handleAddSubmit}
         title={
-          modalType === "delete" ? "Confirm Delete Notification" : "Add as Fact"
+          modalType === "hapus"
+            ? "Konfirmasi Hapus Notifikasi"
+            : "Tambah sebagai Fakta Baru"
         }
-        buttonLabel={modalType === "delete" ? "Delete" : "Save"}
+        buttonLabel={modalType === "hapus" ? "Hapus" : "Simpan"}
         nama={description}
         setNama={setDescription}
         error={error}

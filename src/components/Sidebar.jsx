@@ -225,23 +225,23 @@ const Sidebar = ({ onLogout, unreadCount }) => {
           <OverlayTrigger
             placement="right"
             delay={{ show: 250, hide: 400 }}
-            overlay={<Tooltip>Manajemen Mhsw</Tooltip>}
+            overlay={<Tooltip>Manajemen User</Tooltip>}
           >
             <Link
-              to="/admin/manajemen-mhsw"
-              className={getMenuItemClass("/admin/manajemen-mhsw")}
+              to="/admin/manajemen-user"
+              className={getMenuItemClass("/admin/manajemen-user")}
             >
               <span className="material-symbols-outlined">school</span>
-              <span className="menu-text">Manajemen Mhsw</span>
+              <span className="menu-text">Manajemen User</span>
             </Link>
           </OverlayTrigger>
         ) : (
           <Link
-            to="/admin/manajemen-mhsw"
-            className={getMenuItemClass("/admin/manajemen-mhsw")}
+            to="/admin/manajemen-user"
+            className={getMenuItemClass("/admin/manajemen-user")}
           >
             <span className="material-symbols-outlined">school</span>
-            <span className="menu-text">Manajemen Mhsw</span>
+            <span className="menu-text">Manajemen User</span>
           </Link>
         )}
       </div>

@@ -46,7 +46,7 @@ const LoginAdmin = () => {
               <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
-                placeholder="ID Admin or NIDN"
+                placeholder="ID Admin / NIDN"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
                 required

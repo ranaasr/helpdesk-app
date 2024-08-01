@@ -50,14 +50,14 @@ const RegisterMahasiswa = () => {
       <div className="container">
         <LogoHeader role="Student" />
         <div className="card p-5 shadow-sm" style={{ width: "100%" }}>
-          <h2 className="card-title text-center mb-4">Register</h2>
+          <h2 className="card-title text-center mb-4">Daftar</h2>
           {success && (
             <div className="alert alert-success" role="alert">
-              Registration successful. Please{" "}
+              Pendaftaran berhasil. Mohon{" "}
               <Link to="/login" className="alert-link">
                 login
               </Link>{" "}
-              to continue
+              untuk melanjutkan
             </div>
           )}
           {error && <p className="text-danger">{error}</p>}
@@ -66,24 +66,24 @@ const RegisterMahasiswa = () => {
               <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
-                placeholder="Full Name"
+                placeholder="Nama Lengkap"
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
                 required
               />
-              <div className="invalid-feedback">Full Name is required.</div>
+              <div className="invalid-feedback">Nama Lengkap dibutuhkan.</div>
             </div>
             <div className="form-group">
               <Form.Control
                 type="text"
                 className="form-control bg-transparent"
-                placeholder="ID Student or NPM"
+                placeholder="ID Student / NPM"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
                 required
               />
               <div className="invalid-feedback">
-                ID Student or NPM is required.
+                ID Student / NPM dibutuhkan.
               </div>
             </div>
             <div className="form-group">
@@ -92,14 +92,14 @@ const RegisterMahasiswa = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <div className="invalid-feedback">Password is required.</div>
+              <div className="invalid-feedback">Kata sandi dibutuhkan.</div>
             </div>
             <button type="submit" className="btn btn-primary btn-block mt-3">
-              Register
+              Daftar
             </button>
           </form>
           <p className="mt-3 text-center">
-            Already have an account? <Link to="/login">Login</Link>
+            Sudah punya akun? <Link to="/login">Login</Link>
           </p>
         </div>
       </div>

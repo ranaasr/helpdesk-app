@@ -118,7 +118,7 @@ const RegisterAdmin = () => {
       <div className="container">
         <LogoHeader role="Admin" />
         <div className="card p-5 shadow-sm" style={{ width: "100%" }}>
-          <h2 className="card-title text-center mb-4">Register Admin</h2>
+          <h2 className="card-title text-center mb-4">Daftar Admin</h2>
           {success && (
             <div className="alert alert-success" role="alert">
               Registration successful. Please contact the operator to activate
@@ -134,7 +134,7 @@ const RegisterAdmin = () => {
               <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
-                placeholder="Full Name"
+                placeholder="Nama Lengkap"
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
                 required
@@ -145,7 +145,7 @@ const RegisterAdmin = () => {
               <Form.Control
                 type="text"
                 className="form-control bg-transparent"
-                placeholder="ID Admin or NIDN"
+                placeholder="ID Admin / NIDN"
                 value={nidn}
                 onChange={handleNidnChange}
                 required
@@ -163,11 +163,11 @@ const RegisterAdmin = () => {
               <div className="invalid-feedback">Harap isi bidang ini.</div>
             </div>
             <button type="submit" className="btn btn-primary btn-block mt-3">
-              Register
+              Daftar
             </button>
           </form>
           <p className="mt-3 text-center">
-            Already have an account? <Link to="/admin/login">Login</Link>
+            Sudah punya akun? <Link to="/admin/login">Login</Link>
           </p>
         </div>
       </div>

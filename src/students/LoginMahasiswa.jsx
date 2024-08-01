@@ -64,7 +64,7 @@ const LoginMahasiswa = () => {
               />
               <p>
                 <a href="#" onClick={handleShowModal}>
-                  Forgot password?
+                  Lupa Kata Sandi?
                 </a>
               </p>
             </div>
@@ -73,7 +73,7 @@ const LoginMahasiswa = () => {
             </button>
           </form>
           <p className="mt-3 text-center">
-            Don't have an account yet? <Link to="/register">Register</Link>
+            Belum punya akun? <Link to="/register">Daftar</Link>
           </p>
         </div>
       </div>
@@ -81,8 +81,8 @@ const LoginMahasiswa = () => {
       <ModalWarning
         show={showModal}
         handleClose={handleCloseModal}
-        title="Forgot Password"
-        message="Please contact the campus operator to reset your password."
+        title="Lupa Kata Sandi"
+        message="Silakan hubungi operator kampus untuk mengatur ulang kata sandi Anda."
       />
     </div>
   );

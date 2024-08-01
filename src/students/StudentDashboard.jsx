@@ -39,14 +39,14 @@ const HelpSection = ({ onSearch }) => {
   return (
     <div className="help-section">
       <Container className="text-center">
-        <h1>How Can I Help You?</h1>
+        <h1>Selamat datang di Helpdesk UIN Ar-Raniry.</h1>
         <InputGroup className="search-bar w-75 mx-auto">
           <InputGroup.Text className="search-icon-container">
             <Search className="search-icon" />
           </InputGroup.Text>
           <Form.Control
             type="text"
-            placeholder="Search your issues here..."
+            placeholder="Temukan permasalahan Anda di sini..."
             className="search-input"
             value={searchTerm}
             onChange={handleSearchChange}
@@ -70,8 +70,16 @@ const SubmitIssueForm = ({ show, handleClose }) => {
   const [issueDescription, setIssueDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cookies] = useCookies(["user"]);
+  const formRef = React.createRef();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formRef.current.checkValidity() === false) {
+      e.stopPropagation();
+      formRef.current.classList.add("was-validated");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       console.log(cookies);
@@ -92,31 +100,35 @@ const SubmitIssueForm = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Submit New Issue</Modal.Title>
+        <Modal.Title>Kirim permasalahanmu yang baru</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form ref={formRef} noValidate onSubmit={handleSubmit}>
           <Form.Group controlId="issueDescription">
-            <Form.Label>Problem Description</Form.Label>
+            <Form.Label>Deskripsi Permasalahan</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
               value={issueDescription}
               onChange={(e) => setIssueDescription(e.target.value)}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Harap isi bidang ini.
+            </Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          Tutup
         </Button>
         <Button
           variant="primary"
           onClick={handleSubmit}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Sending..." : "Send"}
+          {isSubmitting ? "Mengirim..." : "Kirim"}
         </Button>
       </Modal.Footer>
     </Modal>
@@ -161,7 +173,7 @@ const IssuesSection = ({ searchTerm }) => {
 
       setFacts(factsData);
       setFilteredFacts(factsData);
-      console.log(factsData)
+      console.log(factsData);
     };
     fetchFacts();
   }, []);
@@ -201,7 +213,7 @@ const IssuesSection = ({ searchTerm }) => {
         resolve();
       });
     });
-    console.log(rulesData)
+    console.log(rulesData);
 
     // buat array untuk tampung solusi
     const solutionsFound = [];
@@ -276,7 +288,7 @@ const IssuesSection = ({ searchTerm }) => {
       const intersectingFacts = id_fakta.filter((fact) =>
         unmatchedFactsList.includes(fact)
       );
-      console.log(intersectingFacts)
+      console.log(intersectingFacts);
 
       // jika id_faktanya terdapat pada unmatchedFactsList
       if (intersectingFacts.length > 0) {
@@ -338,13 +350,15 @@ const IssuesSection = ({ searchTerm }) => {
     setUnmatchedFacts(unmatchedFactsList);
     setPartialSolutions(partialSolutionsFound);
     setIsLoading(false);
-    (solutionsFound.length == 0 && partialSolutionsFound.length == 0) ? (setNotFoundSolution(true)) : (setNotFoundSolution(false))
+    solutionsFound.length == 0 && partialSolutionsFound.length == 0
+      ? setNotFoundSolution(true)
+      : setNotFoundSolution(false);
   };
 
   return (
     <div className="issues-section">
       <div className="facts-list mt-5">
-        <h4>Or Select Your Issues Below</h4>
+        <h4>Atau pilih permasalahan Anda di bawah</h4>
         {filteredFacts.length > 0 ? (
           filteredFacts.map((fact) => (
             <div
@@ -367,7 +381,7 @@ const IssuesSection = ({ searchTerm }) => {
           ))
         ) : (
           <div className="no-facts-message">
-            <p>No facts found matching the search criteria.</p>
+            <p>Tidak ada fakta yang sesuai dengan kriteria pencarian.</p>
           </div>
         )}
         <Button
@@ -381,10 +395,10 @@ const IssuesSection = ({ searchTerm }) => {
             <Spinner animation="border" size="sm" />
           ) : selectedFacts < 1 ? (
             <div>
-              <FontAwesomeIcon icon={faLock} /> Find the Solution
+              <FontAwesomeIcon icon={faLock} /> Temukan Solusi
             </div>
           ) : (
-            "Find the Solution"
+            "Temukan Solusi"
           )}
         </Button>
         {/* kode untuk menampilkan hasil/completion */}
@@ -392,10 +406,10 @@ const IssuesSection = ({ searchTerm }) => {
           <div className="solution-section mt-5">
             {solutionData.map((solution, index) => (
               <div key={index} className="solution-item">
-                <h3>Completion {index + 1}</h3>
+                <h3>Penyelesaian {index + 1}</h3>
                 <hr />
                 <div>
-                  <h4>Facts of the Problem:</h4>
+                  <h4>Fakta Permasalahan:</h4>
                   <ul>
                     {solution.facts.map((fact, idx) => (
                       <li key={idx}>{fact}</li>
@@ -403,11 +417,11 @@ const IssuesSection = ({ searchTerm }) => {
                   </ul>
                 </div>
                 <div>
-                  <h4>Fix Conclusion:</h4>
+                  <h4>Kesimpulan:</h4>
                   <p>{solution.conclusion}</p>
                 </div>
                 <div>
-                  <h4>Fix Solution:</h4>
+                  <h4>Solusi:</h4>
                   <p>{solution.solution}</p>
                 </div>
               </div>
@@ -415,10 +429,10 @@ const IssuesSection = ({ searchTerm }) => {
 
             {partialSolutions.map((solution, index) => (
               <div key={index} className="solution-item">
-                <h3>Completion {index + solutionData.length + 1}</h3>
+                <h3>Penyelesaian {index + solutionData.length + 1}</h3>
                 <hr />
                 <div>
-                  <h4>Facts of the Problem:</h4>
+                  <h4>Fakta Permasalahan:</h4>
                   <ul>
                     {solution.factsUnmatched.map((fact, idx) => (
                       <li key={idx}>{fact}</li>
@@ -426,17 +440,17 @@ const IssuesSection = ({ searchTerm }) => {
                   </ul>
                 </div>
                 <div>
-                  <h4>Possible Conclusions:</h4>
+                  <h4>Kemungkinan Kesimpulan:</h4>
                   <p>{solution.conclusion}</p>
                 </div>
                 <div>
-                  <h4>Possible Solutions:</h4>
+                  <h4>Kemungkinan Solusi:</h4>
                   <p>{solution.solution}</p>
                 </div>
                 <div>
                   <h4>
-                    Check the following problem facts in order to make the
-                    conclusions and solutions fixed:
+                    Berikut adalah fakta-fakta masalah yang perlu diperiksa
+                    untuk memastikan kesimpulan dan solusi yang tepat:
                   </h4>
                   <ul>
                     {solution.factsMatched.map((fact, idx) => (
@@ -457,17 +471,17 @@ const IssuesSection = ({ searchTerm }) => {
             {}
           </div>
         )}
-        {(notFoundSolution == true) && (
+        {notFoundSolution == true && (
           <div className="no-facts-message">
-          <p>No solution found matching the facts criteria.</p>
-        </div>
+            <p>Tidak ada solusi yang ditemukan sesuai dengan kriteria fakta.</p>
+          </div>
         )}
         <Button
           variant="link"
           className="new-problem-button"
           onClick={handleShowModal}
         >
-          Can't find your issue? Submit a new problem.
+          Tidak menemukan masalah Anda? Ajukan masalah baru.
         </Button>
         <SubmitIssueForm show={showModal} handleClose={handleCloseModal} />
       </div>

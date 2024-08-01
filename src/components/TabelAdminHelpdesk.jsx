@@ -48,10 +48,10 @@ const TabelAdminHelpdesk = ({
       <thead className="thead-modern">
         <tr>
           <th className="no">No</th>
-          <th className="admin-name">{`Username ${item}`}</th>
-          <th className="ID">{`ID ${item}`}</th>
+          <th className="admin-name">{"Nama Lengkap"}</th>
+          <th className="ID">{`ID ${item} / NIDN`}</th>
           <th className="waktu">Waktu Registrasi</th>
-          <th className="aksi">Action</th>
+          <th className="aksi">Aksi</th>
         </tr>
       </thead>
       <tbody>

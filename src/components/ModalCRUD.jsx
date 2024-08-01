@@ -23,13 +23,13 @@ const ModalCRUD = ({
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {type !== "delete" && type !== "activate" ? (
+        {type !== "hapus" && type !== "aktivasi" ? (
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNamaFakta">
-              <Form.Label>{`Name of ${item}`}</Form.Label>
+              <Form.Label>{`Nama ${item}`}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={`Enter the name of ${item}`}
+                placeholder={`Masukkan nama ${item}`}
                 value={nama}
                 ref={inputRef}
                 onChange={(e) => setNama(e.target.value)}
@@ -38,24 +38,24 @@ const ModalCRUD = ({
               />
               {error && <p className="text-danger mt-2">{error}</p>}
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
+            <Button variant="primary" t ype="submit" className="mt-3">
               {buttonLabel}
             </Button>
           </Form>
         ) : (
-          <p>{`Are you sure you want to ${type} this ${item}?`}</p>
+          <p>{`Apakah kamu ingin ${type} ${item} ini?`}</p>
         )}
       </Modal.Body>
-      {(type === "delete" || type === "activate") && (
+      {(type === "hapus" || type === "aktivasi") && (
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Batal
           </Button>
           <Button
-            variant={type === "delete" ? "danger" : "success"}
+            variant={type === "hapus" ? "danger" : "success"}
             onClick={handleSubmit}
           >
-            {type === "delete" ? "Delete" : "Activate"}
+            {type === "hapus" ? "Hapus" : "Aktifkan"}
           </Button>
         </Modal.Footer>
       )}

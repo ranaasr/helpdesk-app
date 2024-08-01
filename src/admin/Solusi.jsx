@@ -59,7 +59,7 @@ const Solusi = () => {
     e.preventDefault();
     const trimmedNamaSolusi = nama.trim();
     if (!trimmedNamaSolusi) {
-      setError("The solution's name cannot consist only of spaces!");
+      setError("Nama solusi tidak boleh hanya berisi spasi!");
       return;
     }
     try {
@@ -67,7 +67,7 @@ const Solusi = () => {
       setSolusi([...solusi, { id: newId, nama_solusi: trimmedNamaSolusi }]);
       setNama("");
       handleClose();
-      showToast("Solution successfully added!");
+      showToast("Solusi berhasil ditambahkan!");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -77,7 +77,7 @@ const Solusi = () => {
     e.preventDefault();
     const trimmedEditNamaSolusi = editNama.trim();
     if (!trimmedEditNamaSolusi) {
-      setError("The solution's name cannot consist only of spaces!");
+      setError("Nama solusi tidak boleh hanya berisi spasi!");
       return;
     }
     try {
@@ -91,7 +91,7 @@ const Solusi = () => {
       );
       setEditNama("");
       handleClose();
-      showToast("Solution successfully edited!");
+      showToast("Solusi berhasil diedit!");
     } catch (e) {
       console.error("Error editing document: ", e);
     }
@@ -102,7 +102,7 @@ const Solusi = () => {
       await hapusSolusi(deleteId);
       setSolusi(solusi.filter((solusiSatu) => solusiSatu.id !== deleteId));
       handleClose();
-      showToast("Solution successfully deleted!");
+      showToast("Solusi berhasil dihapus!");
     } catch (e) {
       console.error("Error deleting document: ", e);
     }
@@ -127,47 +127,47 @@ const Solusi = () => {
       <div className="content">
         <div className="header">
           <span className="material-symbols-outlined">report_problem</span>
-          <h1>Solution</h1>
+          <h1>Solusi</h1>
         </div>
         {loading ? (
           <p>Loading...</p>
         ) : solusi.length === 0 ? (
-          <p>No Solutions</p>
+          <p>Tidak ada solusi</p>
         ) : (
           <TabelContentHelpdesk
-            item="Solution"
+            item="Solusi"
             daftarData={solusi}
             handleEditShow={handleEditShow}
             handleDeleteShow={handleDeleteShow}
           />
         )}
         <Button variant="primary" onClick={handleShow} className="add-button">
-          Add Solution
+          Tambah Solusi
         </Button>
       </div>
 
       <ModalCRUD
-        item="Solution"
+        item="Solusi"
         show={show}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
-        title="Add Solution"
-        buttonLabel="Save"
+        title="Tambah Solusi"
+        buttonLabel="Simpan"
         nama={nama}
         setNama={setNama}
         error={error}
         setError={setError}
         inputRef={inputRef}
-        type="add"
+        type="tambah"
       />
 
       <ModalCRUD
-        item="Solution"
+        item="Solusi"
         show={editShow}
         handleClose={handleClose}
         handleSubmit={handleEditSubmit}
-        title="Edit Solution"
-        buttonLabel="Save"
+        title="Edit Solusi"
+        buttonLabel="Simpan"
         nama={editNama}
         setNama={setEditNama}
         error={error}
@@ -177,13 +177,13 @@ const Solusi = () => {
       />
 
       <ModalCRUD
-        item="Solution"
+        item="Solusi"
         show={deleteShow}
         handleClose={handleClose}
         handleSubmit={confirmDelete}
-        title="Delete Confirmation"
-        buttonLabel="Delete"
-        type="delete"
+        title="Konfirmasi Hapus"
+        buttonLabel="Hapus"
+        type="hapus"
       />
 
       <ToastHelpdesk

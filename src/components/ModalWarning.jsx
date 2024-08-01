@@ -12,7 +12,7 @@ const ModalWarning = ({ show, handleClose, title, message }) => {
       <Modal.Body>{message}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          Tutup
         </Button>
       </Modal.Footer>
     </Modal>

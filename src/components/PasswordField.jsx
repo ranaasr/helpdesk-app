@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { Form, Button} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const PasswordField = ({ value, onChange }) => {
@@ -15,7 +15,7 @@ const PasswordField = ({ value, onChange }) => {
       <div className="input-group">
         <Form.Control
           type={showPassword ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Kata Sandi"
           value={value}
           onChange={onChange}
           className="bg-transparent"

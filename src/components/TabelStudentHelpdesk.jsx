@@ -53,10 +53,10 @@ const TabelStudentHelpdesk = ({
       <thead className="thead-modern">
         <tr>
           <th className="no">No</th>
-          <th className="admin-name">{`Username ${item}`}</th>
-          <th className="ID">{`ID ${item}`}</th>
+          <th className="admin-name">{"Nama Lengkap"}</th>
+          <th className="ID">{`ID ${item} / NPM`}</th>
           <th className="waktu">Waktu Registrasi</th>
-          <th className="password">Password</th>
+          <th className="password">Kata Sandi</th>
         </tr>
       </thead>
       <tbody>

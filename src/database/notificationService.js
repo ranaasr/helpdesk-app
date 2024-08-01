@@ -91,14 +91,14 @@ export const tambahMenjadiFakta = async (
   try {
     // Tambahkan fakta permasalahan baru
     await tambahFaktaPermasalahan(trimmedDescription);
-    setToastMessage(`Fact added successfully: ${trimmedDescription}`);
+    setToastMessage(`Fakta berhasil ditambahkan: ${trimmedDescription}`);
 
     // Perbarui status notifikasi menjadi "handled" dan isRead menjadi true
     if (selectedNotif) {
       const timestamp = new Date();
       await updateDoc(doc(pengajuanCollection, selectedNotif.id), {
         handleAt: timestamp,
-        status: "handled",
+        status: "ditambahkan",
         isRead: true,
       });
     }
@@ -116,7 +116,7 @@ export const hapusNotification = async (
 ) => {
   try {
     await deleteDoc(doc(pengajuanCollection, selectedNotif.id));
-    setToastMessage(`Notification deleted successfully!`);
+    setToastMessage(`Notifikasi berhasil dihapus!`);
     handleClose();
   } catch (e) {
     console.error("Error deleting document: ", e);
@@ -129,7 +129,7 @@ export const tandaiNotificationSebagaiDibaca = async (id, setToastMessage) => {
     await updateDoc(doc(pengajuanCollection, id), {
       isRead: true,
     });
-    setToastMessage(`Notification marked as read successfully!`);
+    setToastMessage(`Notifikasi ditandai sebagai berhasil dibaca!`);
   } catch (e) {
     console.error("Error updating document: ", e);
     throw e;

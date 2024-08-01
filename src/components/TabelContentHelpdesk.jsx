@@ -15,8 +15,8 @@ const TabelContentHelpdesk = ({
       <thead>
         <tr>
           <th className="no">No</th>
-          <th className="name">{`Name of ${item}`}</th>
-          <th className="aksi">Action</th>
+          <th className="name">{`Nama ${item}`}</th>
+          <th className="aksi">Aksi</th>
         </tr>
       </thead>
       <tbody>
@@ -24,9 +24,9 @@ const TabelContentHelpdesk = ({
           <tr key={data.id}>
             <td className="no">{index + 1}</td>
             <td className="name">
-              {item == "Facta"
+              {item == "Fakta"
                 ? data.nama_fakta
-                : item == "Conclusion"
+                : item == "Kesimpulan"
                 ? data.nama_kesimpulan
                 : data.nama_solusi}
             </td>
@@ -40,11 +40,11 @@ const TabelContentHelpdesk = ({
                   onClick={() =>
                     handleEditShow(
                       data.id,
-                      item === "Facta"
+                      item === "Fakta"
                         ? data.nama_fakta
-                        : item === "Conclusion"
+                        : item === "Kesimpulan"
                         ? data.nama_kesimpulan
-                        : item === "Solution"
+                        : item === "Solusi"
                         ? data.nama_solusi
                         : ""
                     )
@@ -56,7 +56,7 @@ const TabelContentHelpdesk = ({
               </OverlayTrigger>
               <OverlayTrigger
                 placement="top"
-                overlay={<Tooltip id={`tooltip-top-delete`}>Delete</Tooltip>}
+                overlay={<Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>}
               >
                 <Button
                   variant="danger"

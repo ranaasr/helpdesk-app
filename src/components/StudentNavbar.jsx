@@ -33,7 +33,7 @@ const StudentNavbar = ({ activeLink }) => {
               onClick={handleLogout}
               className={loggingOut ? "active" : ""}
             >
-              {loggingOut ? "Logging out..." : "Logout"}
+              {loggingOut ? "Sedang Keluar..." : "Keluar"}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

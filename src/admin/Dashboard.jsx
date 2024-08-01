@@ -151,8 +151,8 @@ const Dashboard = () => {
       handleClose();
       console.log(jenis);
       jenis === 2
-        ? showToast("Rule successfully edited!")
-        : showToast("Rule successfully added!");
+        ? showToast("Aturan berhasil diedit!")
+        : showToast("Aturan berhasil ditambahkan!");
     } catch (e) {
       console.error("Error adding/updating document: ", e);
       setError("Error occurred while saving data!");
@@ -179,7 +179,7 @@ const Dashboard = () => {
       const updatedRules = rules.filter((rule) => rule.id !== deleteId);
       setRules(updatedRules);
       handleDeleteClose();
-      showToast("Rule successfully deleted!");
+      showToast("Aturan berhasil dihapus!");
     } catch (e) {
       console.error("Error deleting document: ", e);
       setError("Error occurred while deleting data!");
@@ -190,27 +190,27 @@ const Dashboard = () => {
     <div className="content">
       <div className="header">
         <span className="material-symbols-outlined">dashboard</span>
-        <h1>Dashboard</h1>
+        <h1>Aturan</h1>
       </div>
       {loading ? (
         <p>Loading...</p>
       ) : rules.length === 0 ? (
-        <p>No Rule</p>
+        <p>Tidak ada aturan</p>
       ) : (
         <Table responsive className="table-modern">
           <thead>
             <tr>
-              <th className="col-rule">No Rule</th>
-              <th className="col-fakta">Fact of the Problem</th>
-              <th className="col-kesimpulan">Conclusion</th>
-              <th className="col-solusi">Solution</th>
-              <th className="aksi">Action</th>
+              <th className="col-rule">No Aturan</th>
+              <th className="col-fakta">Fakta Permasalahan</th>
+              <th className="col-kesimpulan">Kesimpulan</th>
+              <th className="col-solusi">Solusi</th>
+              <th className="aksi">Aksi</th>
             </tr>
           </thead>
           <tbody>
             {rules.map((rule, i) => (
               <tr key={rule.id}>
-                <td className="col-rule">Rule {i + 1}</td>
+                <td className="col-rule">Aturan {i + 1}</td>
                 <td className="col-fakta">
                   {rule.id_fakta.length > 0 ? (
                     <ul>
@@ -272,9 +272,7 @@ const Dashboard = () => {
                   </OverlayTrigger>
                   <OverlayTrigger
                     placement="top"
-                    overlay={
-                      <Tooltip id={`tooltip-top-delete`}>Delete</Tooltip>
-                    }
+                    overlay={<Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>}
                     ref={deleteTooltipRef}
                   >
                     <Button
@@ -291,7 +289,7 @@ const Dashboard = () => {
         </Table>
       )}
       <Button variant="primary" onClick={handleShow} className="add-button">
-        Add Rule
+        Tambah Aturan
       </Button>
 
       {/* Add Rule Modal */}

@@ -60,7 +60,7 @@ const App = () => {
           <Route path="solusi" element={<Solusi />} />
           <Route path="notifikasi" element={<NotifikasiAdmin />} />
           <Route path="manajemen-admin" element={<AdminManagement />} />
-          <Route path="manajemen-mhsw" element={<StudentManagement />} />
+          <Route path="manajemen-user" element={<StudentManagement />} />
         </Route>
         {/* Catch-all route to redirect to /dashboard */}
         <Route path="/admin/*" element={<Navigate to="/admin/dashboard" />} />

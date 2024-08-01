@@ -40,21 +40,6 @@ const StudentManagement = () => {
     setActivateShow(true);
   };
 
-  // const confirmActivate = async () => {
-  //   try {
-  //     await createUserWithEmailAndPassword(
-  //       auth,
-  //       `${activateNidn}@admin.com`,
-  //       activatePassword
-  //     );
-  //     await editStatusAdmin(activateId);
-  //     handleClose();
-  //     showToast(`Fact successfully deleted!`);
-  //   } catch (e) {
-  //     console.error("Error deleting document: ", e);
-  //   }
-  // };
-
   useEffect(() => {
     const unsubscribe = ambilSemuaStudent((data) => {
       setFaktaPermasalahan(data);
@@ -73,8 +58,8 @@ const StudentManagement = () => {
     <div className="fakta-permasalahan">
       <div className="content">
         <div className="header">
-          <span className="material-symbols-outlined">supervisor_account</span>
-          <h1>Manajemen Admin</h1>
+          <span className="material-symbols-outlined">school</span>
+          <h1>Manajemen User</h1>
         </div>
         {loading ? (
           <p>Loading...</p>
@@ -82,7 +67,7 @@ const StudentManagement = () => {
           <p>No Facts of the Problem</p>
         ) : (
           <TabelStudentHelpdesk
-            item="Student"
+            item="Mahasiswa"
             daftarData={faktaPermasalahan}
             handleActivateShow={handleActivateShow}
             nidnAkun={nidnAkun}
