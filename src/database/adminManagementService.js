@@ -23,12 +23,13 @@ export const tambahAdmin = async (nama) => {
   return docRef.id;
 };
 
-export const editAdmin = async (id, nama) => {
+export const editAdmin = async (id, nama, password) => {
   const timestamp = new Date();
   const docRef = doc(db, "admin", id);
   await updateDoc(docRef, {
     nama: nama.trim(),
     updatedAt: timestamp,
+    password: password
   });
 };
 

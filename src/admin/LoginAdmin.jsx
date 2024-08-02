@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import LogoHeader from "../components/LogoHeader";
@@ -8,6 +6,8 @@ import PasswordField from "../components/PasswordField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/Login.css";
 import { Form } from "react-bootstrap";
+import { db } from "../firebaseConfig"; // Pastikan Anda sudah mengimpor konfigurasi Firestore
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const LoginAdmin = () => {
   const [npm, setNpm] = useState("");
@@ -16,22 +16,38 @@ const LoginAdmin = () => {
   const [cookies, setCookie] = useCookies(["user"]);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, `${npm}@admin.com`, password)
-      .then((userCredential) => {
-        console.log("User logged in:", userCredential.user);
-        const userData = {
-          uid: userCredential.user.uid,
-          email: userCredential.user.email,
-          role: "admin",
-        };
-        setCookie("user", userData, { path: "/" });
-        navigate("/admin/dashboard");
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+    setError("");
+
+    try {
+      const q = query(collection(db, "admin"), where("nidn", "==", npm));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        setError("Akun tidak tersedia.");
+      } else {
+        const doc = querySnapshot.docs[0];
+        const data = doc.data();
+
+        if (data.password !== password) {
+          setError("Password salah.");
+        } else if (data.status !== "aktif") {
+          setError("Akun belum aktif.");
+        } else {
+          const userData = {
+            uid: doc.id,
+            email: `${npm}@admin.com`,
+            role: "admin",
+          };
+          setCookie("user", userData, { path: "/" });
+          navigate("/admin/dashboard");
+        }
+      }
+    } catch (error) {
+      setError("Terjadi kesalahan saat login.");
+      console.error("Login error:", error);
+    }
   };
 
   return (

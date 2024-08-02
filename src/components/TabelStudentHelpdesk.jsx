@@ -1,16 +1,22 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button, Tooltip, OverlayTrigger } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faEyeSlash,
+  faEdit,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import "./styles/TabelStudentHelpdesk.css"; // Tambahkan custom styles di sini
 
 const TabelStudentHelpdesk = ({
   item,
   daftarData,
-  handleActivateShow,
+  handleEditShow,
+  handleDeleteShow,
   nidnAkun,
 }) => {
   const [visiblePasswords, setVisiblePasswords] = useState({});
@@ -57,6 +63,7 @@ const TabelStudentHelpdesk = ({
           <th className="ID">{`ID ${item} / NPM`}</th>
           <th className="waktu">Waktu Registrasi</th>
           <th className="password">Kata Sandi</th>
+          <th className="aksi">Aksi</th> {/* Tambahkan kolom aksi */}
         </tr>
       </thead>
       <tbody>
@@ -80,6 +87,33 @@ const TabelStudentHelpdesk = ({
                   />
                 </button>
               </div>
+            </td>
+            <td className="aksi">
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id={`tooltip-top-edit`}>Edit</Tooltip>}
+              >
+                <Button
+                  variant="warning"
+                  onClick={() =>
+                    handleEditShow(data.id, data.npm, data.nama, data.password)
+                  }
+                  className="me-2"
+                >
+                  <FontAwesomeIcon icon={faEdit} />
+                </Button>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>}
+              >
+                <Button
+                  variant="danger"
+                  onClick={() => handleDeleteShow(data.id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
+              </OverlayTrigger>
             </td>
           </tr>
         ))}

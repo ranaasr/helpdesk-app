@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import LogoHeader from "../components/LogoHeader";
@@ -9,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../admin/styles/Login.css";
 import ModalWarning from "../components/ModalWarning";
 import { Form } from "react-bootstrap";
+import { getDocs, query, where, collection } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 const LoginMahasiswa = () => {
   const [npm, setNpm] = useState("");
@@ -18,22 +18,41 @@ const LoginMahasiswa = () => {
   const [showModal, setShowModal] = useState(false); // State for modal visibility
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, `${npm}@mhs.com`, password)
-      .then((userCredential) => {
-        console.log("User logged in:", userCredential.user);
-        const userData = {
-          uid: userCredential.user.uid,
-          email: userCredential.user.email,
-          role: "user",
-        };
-        setCookie("user", userData, { path: "/" });
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+    try {
+      // Query Firestore to find the user
+      const userQuery = query(
+        collection(db, "users"),
+        where("npm", "==", npm)
+      );
+      const querySnapshot = await getDocs(userQuery);
+
+      if (querySnapshot.empty) {
+        setError("Akun tidak tersedia.");
+        return;
+      }
+
+      // Assuming only one document per NPM
+      const userDoc = querySnapshot.docs[0].data();
+      if (userDoc.password !== password) {
+        setError("Kata sandi salah.");
+        return;
+      }
+
+      // User authenticated successfully
+      console.log("User logged in:", userDoc);
+      const userData = {
+        uid: querySnapshot.docs[0].id,
+        email: `${npm}@mhs.com`,
+        role: "user",
+      };
+      setCookie("user", userData, { path: "/" });
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setError("Terjadi kesalahan. Silakan coba lagi.");
+    }
   };
 
   const handleShowModal = () => setShowModal(true); // Function to show modal

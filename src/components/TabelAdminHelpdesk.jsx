@@ -8,6 +8,8 @@ import {
   faCheckCircle,
   faUser,
   faTimesCircle,
+  faEdit,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles/TabelAdminHelpdesk.css"; // Tambahkan custom styles di sini
 
@@ -15,6 +17,8 @@ const TabelAdminHelpdesk = ({
   item,
   daftarData,
   handleActivateShow,
+  handleEditShow,
+  handleDeleteShow,
   nidnAkun,
 }) => {
   const formatDate = (timestamp) => {
@@ -35,7 +39,7 @@ const TabelAdminHelpdesk = ({
 
   const createdAtAkun = getCreatedAtAkun();
 
-  const isActivateDisabled = (createdAt) => {
+  const isActionDisabled = (createdAt) => {
     return (
       createdAtAkun &&
       new Date(createdAt.seconds * 1000) <
@@ -66,31 +70,114 @@ const TabelAdminHelpdesk = ({
                 </Badge>
               )}
             </td>
-            <td className="ID">{item == "Admin" ? data.nidn : data.npm}</td>
+            <td className="ID">{item === "Admin" ? data.nidn : data.npm}</td>
             <td className="tanggal">{formatDate(data.createdAt)}</td>
             <td className="aksi">
-              {data.status === "aktif" ? (
-                <Badge bg="dark" className="badge-modern p-2">
-                  <FontAwesomeIcon icon={faCheckCircle} /> Akun Aktif
-                </Badge>
-              ) : (
+              {data.nidn === nidnAkun ? (
                 <OverlayTrigger
                   placement="top"
-                  overlay={
-                    <Tooltip id={`tooltip-top-activate`}>Aktifkan!</Tooltip>
-                  }
+                  overlay={<Tooltip id={`tooltip-top-edit`}>Edit</Tooltip>}
                 >
                   <Button
-                    variant="success"
+                    variant="warning"
                     onClick={() =>
-                      handleActivateShow(data.id, data.password, data.nidn)
+                      handleEditShow(
+                        data.id,
+                        data.nidn,
+                        data.nama,
+                        data.password
+                      )
                     }
-                    disabled={isActivateDisabled(data.createdAt)}
                     className="me-2 btn-modern"
                   >
-                    <FontAwesomeIcon icon={faCheckCircle} /> Aktifkan!
+                    <FontAwesomeIcon icon={faEdit} /> Edit
                   </Button>
                 </OverlayTrigger>
+              ) : (
+                <>
+                  {data.status === "aktif" ? (
+                    <>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-top-edit`}>Edit</Tooltip>
+                        }
+                      >
+                        <Button
+                          variant="warning"
+                          onClick={() =>
+                            handleEditShow(
+                              data.id,
+                              data.nidn,
+                              data.nama,
+                              data.password
+                            )
+                          }
+                          className="me-2 btn-modern"
+                          disabled={isActionDisabled(data.createdAt)}
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </Button>
+                      </OverlayTrigger>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>
+                        }
+                      >
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDeleteShow(data.id)}
+                          className="me-2 btn-modern"
+                          disabled={isActionDisabled(data.createdAt)}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </Button>
+                      </OverlayTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-top-activate`}>
+                            Aktifkan!
+                          </Tooltip>
+                        }
+                      >
+                        <Button
+                          variant="success"
+                          onClick={() =>
+                            handleActivateShow(
+                              data.id,
+                              data.password,
+                              data.nidn
+                            )
+                          }
+                          disabled={isActionDisabled(data.createdAt)}
+                          className="me-2 btn-modern"
+                        >
+                          <FontAwesomeIcon icon={faCheckCircle} />
+                        </Button>
+                      </OverlayTrigger>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>
+                        }
+                      >
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDeleteShow(data.id)}
+                          className="me-2 btn-modern"
+                          disabled={isActionDisabled(data.createdAt)}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </Button>
+                      </OverlayTrigger>
+                    </>
+                  )}
+                </>
               )}
             </td>
           </tr>

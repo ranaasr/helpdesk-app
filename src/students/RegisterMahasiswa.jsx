@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import LogoHeader from "../components/LogoHeader";
 import PasswordField from "../components/PasswordField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../admin/styles/Login.css";
 import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 import { Form } from "react-bootstrap";
 
 const RegisterMahasiswa = () => {
@@ -16,33 +15,23 @@ const RegisterMahasiswa = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const timestamp = new Date();
-    createUserWithEmailAndPassword(auth, `${npm}@mhs.com`, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        // Simpan data pengguna ke Firestore
-        addDoc(collection(db, "users"), {
-          uid: user.uid,
-          nama: nama,
-          npm: npm,
-          password: password,
-          createdAt: timestamp,
-          updatedAt: timestamp,
-        })
-          .then(() => {
-            console.log("User registered:", user);
-            setSuccess(true);
-          })
-          .catch((error) => {
-            console.error("Error saving user data to Firestore:", error);
-            setError(error.message);
-          });
-      })
-      .catch((error) => {
-        setError(error.message);
+    try {
+      // Simpan data pengguna ke Firestore
+      await addDoc(collection(db, "users"), {
+        nama: nama,
+        npm: npm,
+        password: password,
+        createdAt: timestamp,
+        updatedAt: timestamp,
       });
+      setSuccess("Pendaftaran berhasil.");
+    } catch (error) {
+      console.error("Error saving user data to Firestore:", error);
+      setError(error.message);
+    }
   };
 
   return (
@@ -53,7 +42,7 @@ const RegisterMahasiswa = () => {
           <h2 className="card-title text-center mb-4">Daftar</h2>
           {success && (
             <div className="alert alert-success" role="alert">
-              Pendaftaran berhasil. Mohon{" "}
+              {success} Mohon{" "}
               <Link to="/login" className="alert-link">
                 login
               </Link>{" "}

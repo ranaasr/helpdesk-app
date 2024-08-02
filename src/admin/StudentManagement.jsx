@@ -1,25 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ambilSemuaStudent } from "../database/studentManagementService";
+import {
+  ambilSemuaStudent,
+  editStudent,
+  hapusStudent,
+} from "../database/studentManagementService";
 import ToastHelpdesk from "../components/ToastHelpdesk";
 import TabelStudentHelpdesk from "../components/TabelStudentHelpdesk";
 import "./styles/Content.css";
+import ModalEditUser from "../components/ModalEditUser"; // Import ModalEditUser
 import ModalCRUD from "../components/ModalCRUD";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
 import { useCookies } from "react-cookie";
 
 const StudentManagement = () => {
-  const [show, setShow] = useState(false);
-  const [activateShow, setActivateShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
   const [faktaPermasalahan, setFaktaPermasalahan] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activateId, setActivateId] = useState(null);
-  const [activatePassword, setActivatePassword] = useState(null);
-  const [activateNidn, setActivateNidn] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [editPassword, setEditPassword] = useState("");
+  const [editNpm, setEditNpm] = useState(null);
+  const [editNama, setEditNama] = useState(""); // New state for name
   const [toastShow, setToastShow] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  const inputRef = useRef(null);
   const [cookies] = useCookies(["user"]);
   const nidnAkun = cookies.user.email.split("@")[0];
 
@@ -29,15 +33,48 @@ const StudentManagement = () => {
   };
 
   const handleClose = () => {
-    setShow(false);
-    setActivateShow(false);
+    setEditShow(false);
+    setDeleteShow(false);
   };
 
-  const handleActivateShow = (id, password, nidn) => {
-    setActivateId(id);
-    setActivatePassword(password);
-    setActivateNidn(nidn);
-    setActivateShow(true);
+  const handleEditShow = (id, nidn, nama, password) => {
+    setEditId(id);
+    setEditNpm(nidn);
+    setEditNama(nama);
+    setEditPassword(password);
+    setEditShow(true);
+  };
+
+  const handleDeleteShow = (id) => {
+    setDeleteId(id);
+    setDeleteShow(true);
+  };
+
+  const confirmEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await editStudent(editId, editNama, editPassword);
+      handleClose();
+      showToast("User berhasil diedit!");
+    } catch (e) {
+      console.error("Error editing user: ", e);
+      showToast("Terjadi kesalahan saat mengedit user.");
+    }
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await hapusStudent(deleteId);
+      handleClose();
+      showToast("User berhasil dihapus!");
+      // Remove the deleted user from state
+      setFaktaPermasalahan(
+        faktaPermasalahan.filter((item) => item.id !== deleteId)
+      );
+    } catch (e) {
+      console.error("Error deleting user: ", e);
+      showToast("Terjadi kesalahan saat menghapus user.");
+    }
   };
 
   useEffect(() => {
@@ -47,12 +84,6 @@ const StudentManagement = () => {
     });
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    if (show) {
-      inputRef.current.focus();
-    }
-  }, [show]);
 
   return (
     <div className="fakta-permasalahan">
@@ -64,26 +95,40 @@ const StudentManagement = () => {
         {loading ? (
           <p>Loading...</p>
         ) : faktaPermasalahan.length === 0 ? (
-          <p>No Facts of the Problem</p>
+          <p>Tidak ada user</p>
         ) : (
           <TabelStudentHelpdesk
             item="Mahasiswa"
             daftarData={faktaPermasalahan}
-            handleActivateShow={handleActivateShow}
+            handleEditShow={handleEditShow}
+            handleDeleteShow={handleDeleteShow} // Add handleDeleteShow as needed
             nidnAkun={nidnAkun}
           />
         )}
       </div>
 
-      {/* <ModalCRUD
-        item="Admin"
-        show={activateShow}
+      <ModalEditUser
+        type="User"
+        show={editShow}
         handleClose={handleClose}
-        handleSubmit={confirmActivate}
-        title="Activate Confirmation"
-        buttonLabel="Activate"
-        type="activate"
-      /> */}
+        handleSubmit={confirmEdit}
+        nidn={editNpm}
+        namaLengkap={editNama}
+        setNamaLengkap={setEditNama}
+        password={editPassword}
+        setPassword={setEditPassword}
+        includePassword={true} // Set to true if you want the password field to be included
+      />
+
+      <ModalCRUD
+        item="User"
+        show={deleteShow}
+        handleClose={handleClose}
+        handleSubmit={confirmDelete}
+        title="Konfirmasi Hapus"
+        buttonLabel="Hapus"
+        type="hapus"
+      />
 
       <ToastHelpdesk
         show={toastShow}

@@ -4,7 +4,6 @@ import LogoHeader from "../components/LogoHeader";
 import PasswordField from "../components/PasswordField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/Login.css";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -12,7 +11,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { auth, db } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 import { Form } from "react-bootstrap";
 
 const RegisterAdmin = () => {
@@ -38,7 +37,11 @@ const RegisterAdmin = () => {
     const timestamp = new Date();
 
     if (nidnError || !nama || !nidn || !password) {
-      setError("Please fix the errors before submitting.");
+      setError(
+        nidnError
+          ? "NIDN hanya boleh berisi angka."
+          : "Please fix the errors before submitting."
+      );
       return;
     }
 
@@ -51,19 +54,12 @@ const RegisterAdmin = () => {
 
       if (existingNidn) {
         setNidnTaken(true);
-        setError("NIDN already exists.");
+        setError("NIDN sudah terpakai.");
       } else {
         setNidnTaken(false);
         if (!adminExists) {
           try {
-            const userCredential = await createUserWithEmailAndPassword(
-              auth,
-              `${nidn}@admin.com`,
-              password
-            );
-            const user = userCredential.user;
             await addDoc(collection(db, "admin"), {
-              uid: user.uid,
               nama: nama,
               password: password,
               status: "aktif",
@@ -107,7 +103,7 @@ const RegisterAdmin = () => {
     setNidn(value);
     const numberRegex = /^[0-9]*$/;
     if (!numberRegex.test(value)) {
-      setNidnError("NIDN should only contain numbers.");
+      setNidnError("NIDN hanya boleh berisi angka.");
     } else {
       setNidnError("");
     }
@@ -121,8 +117,8 @@ const RegisterAdmin = () => {
           <h2 className="card-title text-center mb-4">Daftar Admin</h2>
           {success && (
             <div className="alert alert-success" role="alert">
-              Registration successful. Please contact the operator to activate
-              your account and you can{" "}
+              Registrasi berhasil. Silakan hubungi operator untuk mengaktifkan
+              akun Anda sehingga Anda bisa{" "}
               <Link to="/admin/login" className="alert-link">
                 login
               </Link>

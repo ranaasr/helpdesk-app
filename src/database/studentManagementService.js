@@ -8,7 +8,7 @@ import {
   query,
   orderBy,
   onSnapshot,
-  getDoc
+  getDoc,
 } from "firebase/firestore";
 
 const studentManagementCollection = collection(db, "users");
@@ -23,12 +23,13 @@ export const tambahStudent = async (nama) => {
   return docRef.id;
 };
 
-export const editStudent = async (id, nama) => {
+export const editStudent = async (id, nama, password) => {
   const timestamp = new Date();
   const docRef = doc(db, "users", id);
   await updateDoc(docRef, {
     nama: nama.trim(),
     updatedAt: timestamp,
+    password: password,
   });
 };
 
