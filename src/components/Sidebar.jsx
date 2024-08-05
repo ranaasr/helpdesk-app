@@ -244,6 +244,30 @@ const Sidebar = ({ onLogout, unreadCount }) => {
             <span className="menu-text">Manajemen User</span>
           </Link>
         )}
+
+        {isCollapsed ? (
+          <OverlayTrigger
+            placement="right"
+            delay={{ show: 250, hide: 400 }}
+            overlay={<Tooltip>Riwayat Pengguna</Tooltip>}
+          >
+            <Link
+              to="/admin/history-user"
+              className={getMenuItemClass("/admin/history-user")}
+            >
+              <span className="material-symbols-outlined">history</span>
+              <span className="menu-text">Riwayat Pengguna</span>
+            </Link>
+          </OverlayTrigger>
+        ) : (
+          <Link
+            to="/admin/history-user"
+            className={getMenuItemClass("/admin/history-user")}
+          >
+            <span className="material-symbols-outlined">history</span>
+            <span className="menu-text">Riwayat Pengguna</span>
+          </Link>
+        )}
       </div>
       <div className="menu notification">
         {isCollapsed ? (

@@ -33,11 +33,11 @@ export const editAdmin = async (id, nama, password) => {
   });
 };
 
-export const editStatusAdmin = async (id) => {
+export const editStatusAdmin = async (id, status) => {
   const timestamp = new Date();
   const docRef = doc(db, "admin", id);
   await updateDoc(docRef, {
-    status: "aktif",
+    status: status,
     updatedAt: timestamp,
   });
 };

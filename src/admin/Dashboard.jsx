@@ -149,7 +149,6 @@ const Dashboard = () => {
       // Refresh rules
       fetchRules();
       handleClose();
-      console.log(jenis);
       jenis === 2
         ? showToast("Aturan berhasil diedit!")
         : showToast("Aturan berhasil ditambahkan!");
@@ -295,7 +294,7 @@ const Dashboard = () => {
       {/* Add Rule Modal */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Rule</Modal.Title>
+          <Modal.Title>Tambah Aturan</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <RuleForm
@@ -319,10 +318,10 @@ const Dashboard = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Batal
           </Button>
           <Button variant="primary" onClick={() => handleSave(1)}>
-            Save
+            Simpan
           </Button>
         </Modal.Footer>
       </Modal>
@@ -330,7 +329,7 @@ const Dashboard = () => {
       {/* Edit Rule Modal */}
       <Modal show={editShow} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Rule</Modal.Title>
+          <Modal.Title>Edit Aturan</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <RuleForm
@@ -354,27 +353,27 @@ const Dashboard = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            Batal
           </Button>
           <Button variant="primary" onClick={() => handleSave(2)}>
-            Save
+            Simpan
           </Button>
         </Modal.Footer>
       </Modal>
 
       <Modal show={deleteShow} onHide={handleDeleteClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Confirmation</Modal.Title>
+          <Modal.Title>Konfirmasi Hapus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Are you sure you want to delete this rule?</p>
+          <p>Apakah Anda yakin ingin menghapus aturan ini?</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeleteClose}>
-            Cancel
+            Batal
           </Button>
           <Button variant="danger" onClick={confirmDelete}>
-            Delete
+            Hapus
           </Button>
         </Modal.Footer>
       </Modal>
@@ -420,7 +419,7 @@ const RuleForm = ({
           aria-expanded={openFakta}
           className="mb-3 mt-3"
         >
-          Select Facta of the Problem
+          Pilih Fakta Permasalahan
           <span className="material-symbols-outlined">
             {openFakta ? "arrow_drop_down" : "arrow_right"}
           </span>
@@ -465,7 +464,7 @@ const RuleForm = ({
           aria-expanded={openKesimpulan}
           className="mb-3 mt-3"
         >
-          Select Conclusion
+          Pilih Kesimpulan
           <span className="material-symbols-outlined">
             {openKesimpulan ? "arrow_drop_down" : "arrow_right"}
           </span>
@@ -511,7 +510,7 @@ const RuleForm = ({
           aria-expanded={openSolusi}
           className="mb-3 mt-3"
         >
-          Select Solution
+          Pilih Solusi
           <span className="material-symbols-outlined">
             {openSolusi ? "arrow_drop_down" : "arrow_right"}
           </span>

@@ -8,7 +8,6 @@ import {
   updateDoc,
   query,
   orderBy,
-  serverTimestamp,
   onSnapshot,
   getDocs,
 } from "firebase/firestore";
@@ -47,7 +46,7 @@ export const ambilSemuaNotifications = (
 
     getDocs(collection(db, "users")).then((usersQuerySnapshot) => {
       const usersData = usersQuerySnapshot.docs.reduce((acc, doc) => {
-        acc[doc.data().uid] = doc.data();
+        acc[doc.id] = doc.data();
         return acc;
       }, {});
 

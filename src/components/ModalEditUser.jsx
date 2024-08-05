@@ -36,7 +36,7 @@ const ModalEditUser = ({
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formNIDN">
             <Form.Label>{`ID ${type} / ${
-              type === "Admin" ? "NIDN" : "NPM"
+              type === "Admin" ? "NIDN" : "NIM"
             }`}</Form.Label>
             <div className="d-flex align-items-center">
               <Form.Control
@@ -70,6 +70,7 @@ const ModalEditUser = ({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   ref={passwordInputRef}
+                  required
                   style={{ color: "black" }}
                 />
                 <Button

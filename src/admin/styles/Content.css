@@ -33,7 +33,7 @@ body {
 
 .table th,
 .table td {
-  vertical-align: middle;
+  /* vertical-align: middle; */
   word-wrap: break-word;
 }
 
@@ -97,6 +97,26 @@ body {
   width: 20%;
 }
 
+.table .user-history {
+  width: 15%;
+}
+
+.table .kesimpulan-history {
+  width: 38%;
+}
+
+.table .solusi-history {
+  width: 20%;
+}
+
+.table .password {
+  width: 15%;
+}
+
+.table .tanggal-history {
+  width: 12%;
+}
+
 .table .col-fakta {
   width: 20%;
 }
@@ -114,12 +134,30 @@ body {
 }
 
 .table .admin-name {
-  width: 20%;
+  width: 25%;
+}
+
+.table .ID-mng {
+  width: 35%;
+}
+
+.table .waktu-mng {
+  width: 15%;
 }
 
 .table .aksi {
   text-align: center;
   width: 15%;
+}
+
+.table .aksi-history {
+  text-align: center;
+  width: 10%;
+}
+
+.table .aksi-mng {
+  text-align: center;
+  width: 20%;
 }
 
 .table .aksi button span {

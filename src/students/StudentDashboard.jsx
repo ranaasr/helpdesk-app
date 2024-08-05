@@ -21,6 +21,7 @@ import { ambilSemuaKesimpulan } from "../database/kesimpulanService.js";
 import { ambilSemuaSolusi } from "../database/solusiService.js";
 import { tambahNotification } from "../database/notificationService.js";
 import { ambilSemuaRules } from "../database/rulesService.js";
+import { tambahHistory } from "../database/historyService.js";
 
 // HelpSection Component
 const HelpSection = ({ onSearch }) => {
@@ -82,7 +83,7 @@ const SubmitIssueForm = ({ show, handleClose }) => {
 
     setIsSubmitting(true);
     try {
-      console.log(cookies);
+      console.log(cookies.user);
       await tambahNotification(
         issueDescription,
         cookies.user ? cookies.user.uid : null
@@ -134,7 +135,9 @@ const SubmitIssueForm = ({ show, handleClose }) => {
     </Modal>
   );
 };
+
 const IssuesSection = ({ searchTerm }) => {
+  const [cookies] = useCookies(["user"]);
   const [facts, setFacts] = useState([]);
   const [filteredFacts, setFilteredFacts] = useState([]);
   const [selectedFacts, setSelectedFacts] = useState([]);
@@ -202,6 +205,7 @@ const IssuesSection = ({ searchTerm }) => {
   // Fungsi Sistem Pakar
   const handleFindSolution = async () => {
     setIsLoading(true);
+    tambahHistory({fakta:selectedFacts}, cookies.user ? cookies.user.uid : null);
     // Buat Array tampung data dari tabel rules
     const rulesData = [];
     // Ambil data dari tabel rules dan masukkan ke rulesData

@@ -60,8 +60,8 @@ const TabelStudentHelpdesk = ({
         <tr>
           <th className="no">No</th>
           <th className="admin-name">{"Nama Lengkap"}</th>
-          <th className="ID">{`ID ${item} / NPM`}</th>
-          <th className="waktu">Waktu Registrasi</th>
+          <th className="ID">{`ID ${item} / NIM`}</th>
+          <th className="waktu-mng">Waktu Registrasi</th>
           <th className="password">Kata Sandi</th>
           <th className="aksi">Aksi</th> {/* Tambahkan kolom aksi */}
         </tr>
@@ -72,7 +72,7 @@ const TabelStudentHelpdesk = ({
             <td className="no">{index + 1}</td>
             <td className="name">{data.nama}</td>
             <td className="ID">{item === "Admin" ? data.nidn : data.npm}</td>
-            <td className="tanggal">{formatDate(data.createdAt)}</td>
+            <td className="waktu-mng">{formatDate(data.createdAt)}</td>
             <td className="password">
               <div className="password-container">
                 <span className="password-text">

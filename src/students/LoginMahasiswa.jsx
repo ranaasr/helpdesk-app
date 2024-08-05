@@ -70,7 +70,7 @@ const LoginMahasiswa = () => {
               <Form.Control
                 type="text"
                 className="form-control bg-transparent mt-3"
-                placeholder="ID Student or NPM"
+                placeholder="ID Student or NIM"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
                 required

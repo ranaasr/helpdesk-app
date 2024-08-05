@@ -10,7 +10,7 @@ const PrivateRoute = ({
   requiredRole,
 }) => {
   const [cookies] = useCookies(["user"]);
-  console.log(cookies.user);
+  // console.log(cookies.user);
 
   if (!cookies.user) {
     return <Navigate to={NavigateTo} />;

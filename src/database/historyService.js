@@ -11,33 +11,35 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-const rulesCollection = collection(db, "rules");
+const historyCollection = collection(db, "history");
 
-export const tambahRule = async (rule) => {
+export const tambahHistory = async (fakta, user) => {
   const timestamp = new Date();
-  const docRef = await addDoc(rulesCollection, {
-    ...rule,
+  const docRef = await addDoc(historyCollection, {
+    ...fakta,
+    user: user,
     createdAt: timestamp,
     updatedAt: timestamp,
   });
   return docRef.id;
 };
 
-export const editRule = async (id, rule) => {
+export const editHistory = async (id, fakta, user) => {
   const timestamp = new Date();
-  const docRef = doc(db, "rules", id);
+  const docRef = doc(db, "history", id);
   await updateDoc(docRef, {
-    ...rule,
+    ...fakta,
+    user,
     updatedAt: timestamp,
   });
 };
 
-export const hapusRule = async (id) => {
-  await deleteDoc(doc(db, "rules", id));
+export const hapusHistory = async (id) => {
+  await deleteDoc(doc(db, "history", id));
 };
 
-export const ambilSemuaRules = (callback) => {
-  const q = query(rulesCollection, orderBy("createdAt", "asc"));
+export const ambilSemuaHistory = (callback) => {
+  const q = query(historyCollection, orderBy("createdAt", "desc"));
   return onSnapshot(q, (querySnapshot) => {
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,

@@ -17,6 +17,7 @@ const TabelAdminHelpdesk = ({
   item,
   daftarData,
   handleActivateShow,
+  handleInactivateShow,
   handleEditShow,
   handleDeleteShow,
   nidnAkun,
@@ -53,16 +54,16 @@ const TabelAdminHelpdesk = ({
         <tr>
           <th className="no">No</th>
           <th className="admin-name">{"Nama Lengkap"}</th>
-          <th className="ID">{`ID ${item} / NIDN`}</th>
-          <th className="waktu">Waktu Registrasi</th>
-          <th className="aksi">Aksi</th>
+          <th className="ID-mng">{`ID ${item} / NIDN`}</th>
+          <th className="waktu-mng">Waktu Registrasi</th>
+          <th className="aksi-mng">Aksi</th>
         </tr>
       </thead>
       <tbody>
         {daftarData.map((data, index) => (
           <tr key={data.id} className="align-middle">
             <td className="no">{index + 1}</td>
-            <td className="name">
+            <td className="admin-name">
               {data.nama}
               {data.nidn === nidnAkun && (
                 <Badge bg="info" className="ms-2 badge-modern">
@@ -70,9 +71,11 @@ const TabelAdminHelpdesk = ({
                 </Badge>
               )}
             </td>
-            <td className="ID">{item === "Admin" ? data.nidn : data.npm}</td>
-            <td className="tanggal">{formatDate(data.createdAt)}</td>
-            <td className="aksi">
+            <td className="ID-mng">
+              {item === "Admin" ? data.nidn : data.npm}
+            </td>
+            <td className="waktu-mng">{formatDate(data.createdAt)}</td>
+            <td className="aksi-mng">
               {data.nidn === nidnAkun ? (
                 <OverlayTrigger
                   placement="top"
@@ -100,38 +103,20 @@ const TabelAdminHelpdesk = ({
                       <OverlayTrigger
                         placement="top"
                         overlay={
-                          <Tooltip id={`tooltip-top-edit`}>Edit</Tooltip>
+                          <Tooltip id={`tooltip-top-inactivate`}>
+                            Nonaktifkan!
+                          </Tooltip>
                         }
                       >
                         <Button
-                          variant="warning"
+                          variant="secondary"
                           onClick={() =>
-                            handleEditShow(
-                              data.id,
-                              data.nidn,
-                              data.nama,
-                              data.password
-                            )
+                            handleInactivateShow(data.id, data.nidn)
                           }
                           className="me-2 btn-modern"
                           disabled={isActionDisabled(data.createdAt)}
                         >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </Button>
-                      </OverlayTrigger>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={
-                          <Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>
-                        }
-                      >
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDeleteShow(data.id)}
-                          className="me-2 btn-modern"
-                          disabled={isActionDisabled(data.createdAt)}
-                        >
-                          <FontAwesomeIcon icon={faTrashAlt} />
+                          <FontAwesomeIcon icon={faTimesCircle} />
                         </Button>
                       </OverlayTrigger>
                     </>
@@ -160,23 +145,41 @@ const TabelAdminHelpdesk = ({
                           <FontAwesomeIcon icon={faCheckCircle} />
                         </Button>
                       </OverlayTrigger>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={
-                          <Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>
-                        }
-                      >
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDeleteShow(data.id)}
-                          className="me-2 btn-modern"
-                          disabled={isActionDisabled(data.createdAt)}
-                        >
-                          <FontAwesomeIcon icon={faTrashAlt} />
-                        </Button>
-                      </OverlayTrigger>
                     </>
                   )}
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id={`tooltip-top-edit`}>Edit</Tooltip>}
+                  >
+                    <Button
+                      variant="warning"
+                      onClick={() =>
+                        handleEditShow(
+                          data.id,
+                          data.nidn,
+                          data.nama,
+                          data.password
+                        )
+                      }
+                      className="me-2 btn-modern"
+                      disabled={isActionDisabled(data.createdAt)}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                  </OverlayTrigger>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id={`tooltip-top-delete`}>Hapus</Tooltip>}
+                  >
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDeleteShow(data.id)}
+                      className="me-2 btn-modern"
+                      disabled={isActionDisabled(data.createdAt)}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </Button>
+                  </OverlayTrigger>
                 </>
               )}
             </td>

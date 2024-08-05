@@ -4,7 +4,7 @@ import LogoHeader from "../components/LogoHeader";
 import PasswordField from "../components/PasswordField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../admin/styles/Login.css";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { Form } from "react-bootstrap";
 
@@ -17,9 +17,29 @@ const RegisterMahasiswa = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    // Check if NIM is numeric
+    const numericRegex = /^[0-9]+$/;
+    if (!numericRegex.test(npm)) {
+      setError("ID Student / NIM harus berupa angka.");
+      return;
+    }
+
     const timestamp = new Date();
+
     try {
-      // Simpan data pengguna ke Firestore
+      // Check if NIM is already registered
+      const userQuery = query(collection(db, "users"), where("npm", "==", npm));
+      const querySnapshot = await getDocs(userQuery);
+
+      if (!querySnapshot.empty) {
+        setError("ID Student / NIM sudah terdaftar.");
+        return;
+      }
+
+      // Save user data to Firestore
       await addDoc(collection(db, "users"), {
         nama: nama,
         npm: npm,
@@ -27,6 +47,7 @@ const RegisterMahasiswa = () => {
         createdAt: timestamp,
         updatedAt: timestamp,
       });
+
       setSuccess("Pendaftaran berhasil.");
     } catch (error) {
       console.error("Error saving user data to Firestore:", error);
@@ -66,13 +87,13 @@ const RegisterMahasiswa = () => {
               <Form.Control
                 type="text"
                 className="form-control bg-transparent"
-                placeholder="ID Student / NPM"
+                placeholder="ID Student / NIM"
                 value={npm}
                 onChange={(e) => setNpm(e.target.value)}
                 required
               />
               <div className="invalid-feedback">
-                ID Student / NPM dibutuhkan.
+                ID Student / NIM dibutuhkan.
               </div>
             </div>
             <div className="form-group">

@@ -16,6 +16,7 @@ import AdminManagement from "./admin/AdminManagement";
 import LoginAdmin from "./admin/LoginAdmin";
 import RegisterAdmin from "./admin/RegisterAdmin";
 import StudentManagement from "./admin/StudentManagement";
+import History from "./admin/History";
 
 const App = () => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="notifikasi" element={<NotifikasiAdmin />} />
           <Route path="manajemen-admin" element={<AdminManagement />} />
           <Route path="manajemen-user" element={<StudentManagement />} />
+          <Route path="history-user" element={<History />} />
         </Route>
         {/* Catch-all route to redirect to /dashboard */}
         <Route path="/admin/*" element={<Navigate to="/admin/dashboard" />} />

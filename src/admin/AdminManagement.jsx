@@ -15,13 +15,13 @@ import { useCookies } from "react-cookie";
 const AdminManagement = () => {
   const [show, setShow] = useState(false);
   const [activateShow, setActivateShow] = useState(false);
+  const [inactivateShow, setInactivateShow] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [faktaPermasalahan, setFaktaPermasalahan] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activateId, setActivateId] = useState(null);
-  const [activatePassword, setActivatePassword] = useState(null);
-  const [activateNidn, setActivateNidn] = useState(null);
+  const [inactivateId, setInactivateId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [editNama, setEditNama] = useState("");
   const [editNidn, setEditNidn] = useState("");
@@ -42,15 +42,19 @@ const AdminManagement = () => {
   const handleClose = () => {
     setShow(false);
     setActivateShow(false);
+    setInactivateShow(false);
     setDeleteShow(false);
     setEditShow(false);
   };
 
-  const handleActivateShow = (id, password, nidn) => {
+  const handleActivateShow = (id) => {
     setActivateId(id);
-    setActivatePassword(password);
-    setActivateNidn(nidn);
     setActivateShow(true);
+  };
+
+  const handleInactivateShow = (id) => {
+    setInactivateId(id);
+    setInactivateShow(true);
   };
 
   const handleDeleteShow = (id) => {
@@ -68,7 +72,7 @@ const AdminManagement = () => {
 
   const confirmActivate = async () => {
     try {
-      await editStatusAdmin(activateId);
+      await editStatusAdmin(activateId, "aktif");
       handleClose();
       showToast("Admin berhasil diaktifkan!");
       // Update data
@@ -79,6 +83,22 @@ const AdminManagement = () => {
     } catch (e) {
       console.error("Error activating admin: ", e);
       showToast("Terjadi kesalahan saat mengaktifkan admin.");
+    }
+  };
+
+  const confirmInactivate = async () => {
+    try {
+      await editStatusAdmin(inactivateId, "nonaktif");
+      handleClose();
+      showToast("Admin berhasil dinonaktifkan!");
+      // Update data
+      const updatedData = faktaPermasalahan.map((item) =>
+        item.id === inactivateId ? { ...item, status: "nonaktif" } : item
+      );
+      setFaktaPermasalahan(updatedData);
+    } catch (e) {
+      console.error("Error inactivating admin: ", e);
+      showToast("Terjadi kesalahan saat meng-nonaktifkan admin.");
     }
   };
 
@@ -139,6 +159,7 @@ const AdminManagement = () => {
             item="Admin"
             daftarData={faktaPermasalahan}
             handleActivateShow={handleActivateShow}
+            handleInactivateShow={handleInactivateShow}
             handleEditShow={handleEditShow}
             handleDeleteShow={handleDeleteShow}
             nidnAkun={nidnAkun}
@@ -154,6 +175,16 @@ const AdminManagement = () => {
         title="Konfirmasi Aktivasi"
         buttonLabel="Aktifkan"
         type="aktivasi"
+      />
+
+      <ModalCRUD
+        item="Admin"
+        show={inactivateShow}
+        handleClose={handleClose}
+        handleSubmit={confirmInactivate}
+        title="Konfirmasi In-Aktivasi"
+        buttonLabel="Nonaktifkan"
+        type="in-aktivasi"
       />
 
       <ModalCRUD
@@ -174,7 +205,7 @@ const AdminManagement = () => {
         nidn={editNidn}
         namaLengkap={editNama}
         setNamaLengkap={setEditNama}
-        includePassword={nidnAkun == editNidn ? true : false}
+        includePassword={true}
         password={editPassword}
         setPassword={setEditPassword}
       />
